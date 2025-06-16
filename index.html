@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonathan Chandra Hermawan | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: #38bdf8;
+        }
+        .tag {
+            background-color: #38bdf820;
+            color: #7dd3fc;
+            border: 1px solid #38bdf850;
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #38bdf8;
+        }
+        .filter-btn {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            background-color: #30363d;
+            color: #ffffff;
+        }
+        .filter-btn.active {
+            background-color: #38bdf8;
+            color: #0d1117;
+            border-color: #38bdf8;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: #374151;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563;
+            transform: scale(1.05);
+        }
+        .tech-logo-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            height: 64px;
+            width: 100%;
+        }
+        .tech-logo-container .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+            background-color: #0d1117;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            transition: opacity 0.3s, visibility 0.3s;
+            pointer-events: none;
+        }
+        .tech-logo-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tech-logo {
+            max-height: 40px;
+            max-width: 40px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(60%);
+            transition: filter 0.3s, transform 0.3s;
+        }
+        .tech-logo-container:hover .tech-logo {
+            filter: grayscale(0%) opacity(100%);
+            transform: scale(1.1);
+        }
+
+        /* --- Animations --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #about { position: relative; overflow: hidden; }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.4);
+            animation: float 25s infinite linear;
+        }
+        .particle.p1 { width: 5px; height: 5px; left: 15%; animation-duration: 20s; }
+        .particle.p2 { width: 10px; height: 10px; left: 50%; animation-duration: 30s; animation-delay: -5s; }
+        .particle.p3 { width: 6px; height: 6px; left: 85%; animation-duration: 18s; animation-delay: -10s; }
+        .particle.p4 { width: 8px; height: 8px; left: 5%; animation-duration: 22s; animation-delay: -15s; }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 z-50 bg-opacity-70 backdrop-blur-lg border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white">Jonathan Chandra Hermawan</a>
+            <div class="hidden md:flex space-x-6 text-gray-400">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#awards" class="nav-link">Awards</a>
+                <a href="#certifications" class="nav-link">Certifications</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+
+        <section id="about" class="text-center mb-20 md:mb-32 pt-10">
+            <div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div><div class="particle p4"></div>
+            <div class="relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white reveal-on-scroll">
+                    Hi, I'm <span class="text-gradient">Jonathan Chandra Hermawan</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8 reveal-on-scroll" style="transition-delay: 200ms;">
+                    A final-year Informatics student passionate about crafting solutions in Data Science, AI, and Cybersecurity. I thrive on transforming complex data into actionable insights and building intelligent systems that make a difference.
+                </p>
+                <div class="flex justify-center space-x-6 text-2xl text-gray-400 reveal-on-scroll" style="transition-delay: 400ms;">
+                    <a href="https://linkedin.com/in/jonathanch17" target="_blank" class="nav-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/cauchips" target="_blank" class="nav-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/vizzes" target="_blank" class="nav-link" aria-label="Tableau"><i class="fas fa-chart-bar"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="reveal-on-scroll mb-20 md:mb-32">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Projects</h2>
+            <p class="text-center text-gray-400 mb-12">Here's a selection of my recent work.</p>
+            <div class="flex justify-center flex-wrap gap-2 md:space-x-4 mb-12">
+                <button data-filter="all" class="filter-btn px-4 py-2 text-sm rounded-full" onclick="filterProjects('all')">All Projects</button>
+                <button data-filter="ml" class="filter-btn active px-4 py-2 text-sm rounded-full" onclick="filterProjects('ml')">Machine Learning & AI</button>
+                <button data-filter="data-analytics" class="filter-btn px-4 py-2 text-sm rounded-full" onclick="filterProjects('data-analytics')">Data Analytics</button>
+                <button data-filter="dev" class="filter-btn px-4 py-2 text-sm rounded-full" onclick="filterProjects('dev')">Software & Web Dev</button>
+            </div>
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+        <section id="awards" class="reveal-on-scroll mb-20 md:mb-32">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Awards</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                 <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🏆</div>
+                    <h3 class="font-bold text-white">Grand Champion</h3>
+                    <p class="text-sm text-gray-400">PEDAS 2024 Competition</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by MAXY Academy & HMM UIN Jakarta</p>
+                </div>
+                 <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🥈</div>
+                    <h3 class="font-bold text-white">2nd Place</h3>
+                    <p class="text-sm text-gray-400">Codefest 3.0</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by Gunadarma I/O</p>
+                </div>
+                 <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🥇</div>
+                    <h3 class="font-bold text-white">1st Place Winner</h3>
+                    <p class="text-sm text-gray-400">Hackfest0x07 CTF</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by Cyber Community UG</p>
+                </div>
+                <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🥉</div>
+                    <h3 class="font-bold text-white">3rd Place</h3>
+                    <p class="text-sm text-gray-400">ANONCYBERTEAM CTF</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by Anon Cyber Team</p>
+                </div>
+                <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🌟</div>
+                    <h3 class="font-bold text-white">Finalist</h3>
+                    <p class="text-sm text-gray-400">COMPFEST 16 Data Analytics</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by BEM Fasilkom UI</p>
+                </div>
+                <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center">
+                    <div class="text-4xl mb-3">🌟</div>
+                    <h3 class="font-bold text-white">Finalist</h3>
+                    <p class="text-sm text-gray-400">GEMASTIK XVI Data Mining</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued by Puspresnas Kemdikbud</p>
+                </div>
+                <div class="award-card card p-4 rounded-lg text-center flex flex-col items-center justify-center col-span-1 sm:col-span-2 lg:col-span-2">
+                    <div class="text-4xl mb-3">🎓</div>
+                    <h3 class="font-bold text-white">Best Academic Achievements</h3>
+                    <p class="text-sm text-gray-400">Universitas Gunadarma</p>
+                    <p class="text-xs text-gray-500 mt-1">2022, 2023, 2024</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="certifications" class="reveal-on-scroll mb-20 md:mb-32">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Certifications</h2>
+            <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-6">
+                <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-robot"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Dev Certified for ML with TensorFlow</h3>
+                    <p class="text-sm text-gray-400 mt-2">dev.id by Dicoding</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Mar 2025</p>
+                </div>
+                <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-user-secret"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Certified Ethical Hacker (CEH) v12</h3>
+                    <p class="text-sm text-gray-400 mt-2">EC-Council</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Dec 2024</p>
+                </div>
+                <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fab fa-python"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">TensorFlow Developer Specialization</h3>
+                    <p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued May 2024</p>
+                </div>
+                 <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-cogs"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">TensorFlow: Data & Deployment</h3>
+                    <p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued May 2024</p>
+                </div>
+                 <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-brain"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Machine Learning Specialization</h3>
+                    <p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Apr 2024</p>
+                </div>
+                <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-calculator"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Mathematics for ML & Data Science</h3>
+                    <p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Mar 2024</p>
+                </div>
+                <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Fortinet Network Security Expert (NSE 1)</h3>
+                    <p class="text-sm text-gray-400 mt-2">Fortinet</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Sep 2023</p>
+                </div>
+                 <div class="award-card card p-5 text-center flex flex-col items-center justify-start min-h-[160px]">
+                    <div class="text-4xl text-gradient mb-3"><i class="fas fa-user-shield"></i></div>
+                    <h3 class="font-bold text-white text-base leading-tight flex-grow">Certified Secure Computer User (C/SCU)</h3>
+                    <p class="text-sm text-gray-400 mt-2">EC-Council</p>
+                    <p class="text-xs text-gray-500 mt-1">Issued Oct 2024</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="reveal-on-scroll mb-20 md:mb-32">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Core Competencies</h2>
+            <div class="max-w-4xl mx-auto space-y-10">
+                <div class="card p-6 rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                            <h3 class="text-xl font-bold mb-3 text-gradient">AI & Machine Learning</h3>
+                            <ul class="list-disc list-inside text-gray-400 space-y-2 text-sm">
+                                <li>End-to-End Model Development & Deployment</li>
+                                <li>Fine-Tuning Large Vision-Language Models (Florence-2)</li>
+                                <li>Computer Vision (YOLO, CNNs) & NLP (Transformers)</li>
+                                <li>Predictive Modeling & Recommender Systems</li>
+                            </ul>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 items-center">
+                           <div class="tech-logo-container"><span class="tooltip">Python</span><img src="https://cdn.worldvectorlogo.com/logos/python-5.svg" alt="Python" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">TensorFlow</span><img src="https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg" alt="TensorFlow" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">PyTorch</span><img src="https://cdn.worldvectorlogo.com/logos/pytorch-2.svg" alt="PyTorch" class="tech-logo"></div>
+                           <div class="tech-logo-container flex items-center justify-center"><span class="text-3xl">🤗</span><span class="tooltip">Hugging Face</span></div>
+                           <div class="tech-logo-container"><span class="tooltip">Scikit-Learn</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/240px-Scikit_learn_logo_small.svg.png" alt="Scikit-Learn" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Pandas</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pandas_mark.svg/1200px-Pandas_mark.svg.png" alt="Pandas" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">NumPy</span><img src="https://cdn.worldvectorlogo.com/logos/numpy-1.svg" alt="NumPy" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Keras</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Keras_logo.svg/1200px-Keras_logo.svg.png" alt="Keras" class="tech-logo" style="filter: invert(1);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6 rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                             <h3 class="text-xl font-bold mb-3 text-gradient">Data Analytics & BI</h3>
+                             <ul class="list-disc list-inside text-gray-400 space-y-2 text-sm">
+                                <li>Interactive Dashboard Development & Storytelling</li>
+                                <li>Complex SQL Querying & Data Warehousing Concepts</li>
+                                <li>Business Intelligence Reporting & Insight Generation</li>
+                                <li>Statistical Analysis (Regression, Bayesian)</li>
+                            </ul>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                           <div class="tech-logo-container"><span class="tooltip">SQL</span><i class="fas fa-database text-4xl text-sky-400"></i></div>
+                           <div class="tech-logo-container"><span class="tooltip">Tableau</span><img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" alt="Tableau" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Power BI</span><img src="https://cdn.worldvectorlogo.com/logos/power-bi-1.svg" alt="Power BI" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Streamlit</span><img src="https://streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.svg" alt="Streamlit" class="tech-logo" style="filter: none;"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Plotly</span><img src="https://cdn.worldvectorlogo.com/logos/plotly.svg" alt="Plotly" class="tech-logo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6 rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                        <div class="md:col-span-2">
+                             <h3 class="text-xl font-bold mb-3 text-gradient">Platforms, DevOps & Tools</h3>
+                             <ul class="list-disc list-inside text-gray-400 space-y-2 text-sm">
+                                <li>Cloud Computing & AI Services (GCP Vertex AI)</li>
+                                <li>Containerization & API Deployment (Docker, Flask)</li>
+                                <li>Version Control & CI/CD Pipelines (Git, GitHub)</li>
+                                <li>Experiment Tracking (MLflow, Weights & Biases)</li>
+                            </ul>
+                        </div>
+                       <div class="grid grid-cols-4 gap-4">
+                           <div class="tech-logo-container"><span class="tooltip">GCP</span><img src="https://cdn.worldvectorlogo.com/logos/google-cloud-1.svg" alt="GCP" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Docker</span><img src="https://cdn.worldvectorlogo.com/logos/docker.svg" alt="Docker" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Kubernetes</span><img src="https://cdn.worldvectorlogo.com/logos/kubernetes.svg" alt="Kubernetes" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Flask</span><img src="https://cdn.worldvectorlogo.com/logos/flask.svg" alt="Flask" class="tech-logo" style="filter: invert(1);"></div>
+                           <div class="tech-logo-container"><span class="tooltip">Git</span><img src="https://cdn.worldvectorlogo.com/logos/git-icon.svg" alt="Git" class="tech-logo"></div>
+                           <div class="tech-logo-container"><span class="tooltip">GitHub</span><i class="fab fa-github text-4xl"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="reveal-on-scroll text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Contact</h2>
+            <p class="text-gray-400 max-w-xl mx-auto mb-8">I'm currently seeking new opportunities. Whether you have a question or just want to connect, feel free to reach out. My inbox is always open!</p>
+            <a href="mailto:jonathanchandra17@gmail.com" class="btn-primary text-white font-semibold px-8 py-3 rounded-lg inline-block">
+                Say Hello
+            </a>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 mt-20 border-t border-gray-800">
+        <p class="text-gray-500">&copy; 2025 Jonathan Chandra Hermawan. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const projects = [
+            {
+                title: "Coretax System Simulator",
+                category: "dev",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Coretax+Simulator",
+                description: "Developed a full-stack simulation portal for Indonesia's new Coretax system during an internship at the Directorate General of Taxes (DJP).",
+                tags: ["PHP", "MySQL", "Backend", "Government"],
+                liveLink: "https://portalwp-simulasi.pajak.go.id/",
+                codeLink: null
+            },
+            {
+                title: "AI-Powered Lead Scraper",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=AI+Lead+Scraper",
+                description: "Built a Streamlit app to scrape, enrich, and rank B2B leads using a custom scoring model that incorporates sentiment analysis and semantic similarity.",
+                tags: ["Streamlit", "Python", "Web Scraping", "DistilBERT", "NLP"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/ai-powered-lead-scraper"
+            },
+            {
+                title: "Thesis: Metadata-Integrated Auto Captioning",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Florence-2+Thesis",
+                description: "Fine-tuning the state-of-the-art Florence-2 model for a detailed Indonesian image captioning task. This thesis research integrates metadata to improve contextual accuracy.",
+                tags: ["Fine-Tuning", "LLM", "Florence-2", "Python", "PyTorch"],
+                liveLink: null,
+                codeLink: null
+            },
+            {
+                title: "Cataract Detection App (Bangkit)",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Cataract+Detection",
+                description: "Developed the core machine learning model for a Bangkit 2024 capstone project, achieving 99% accuracy in detecting cataracts from eye images.",
+                tags: ["TensorFlow", "Python", "GCP", "Computer Vision", "Android"],
+                liveLink: null,
+                codeLink: "https://github.com/cataract-bangkit"
+            },
+            {
+                title: "Face Mask Detection Model",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Face+Mask+Detection",
+                description: "Trained and deployed an object detection model on Roboflow to identify correct, incorrect, or absent face mask usage from images.",
+                tags: ["Object Detection", "Roboflow", "Python", "Computer Vision"],
+                liveLink: "https://universe.roboflow.com/jonathan-chandra/face-mask-object-detection/model/2",
+                codeLink: null
+            },
+            {
+                title: "Soybean Quality Detection",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Soybean+Quality",
+                description: "Led the ML engineering for a team project that became a finalist in GEMASTIK XVI Data Mining. This project uses a YOLOv5 model to classify soybean quality.",
+                tags: ["YOLOv5", "Python", "Project Management", "Roboflow"],
+                liveLink: "https://universe.roboflow.com/jonathan-chandra/soybean-detection/model/6",
+                codeLink: null
+            },
+            {
+                title: "Damaged Solar Panel Classification",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Solar+Panel+Detection",
+                description: "Developed a computer vision model to automatically classify and identify damaged solar panels from aerial imagery to help streamline maintenance efforts.",
+                tags: ["Python", "Computer Vision", "Classification"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/damaged-solar-panel-classification"
+            },
+            {
+                title: "Dog Eye Disease Detection",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Dog+Eye+Disease+Detection",
+                description: "Built and deployed a Streamlit web application that utilizes a YOLO deep learning model to detect various eye diseases in dogs from user-uploaded images.",
+                tags: ["YOLO", "Python", "Streamlit", "Computer Vision"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/Dog-Eye-Diseases-Detection-Streamlit"
+            },
+             {
+                title: "Poisonous Mushroom Prediction",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Mushroom+Prediction",
+                description: "Built a classic machine learning model to predict whether a mushroom is poisonous or edible based on its physical attributes.",
+                tags: ["Jupyter", "Scikit-learn", "Python", "Classification"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/poisonous-mushroom-prediction"
+            },
+            {
+                title: "Simple Image Enhancement Tool",
+                category: "ml",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Image+Enhancement",
+                description: "Created a Jupyter Notebook to demonstrate various classical techniques for image enhancement, including brightness, contrast, and sharpness adjustments.",
+                tags: ["Jupyter", "Python", "Image Processing"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/simple-image-enhancement"
+            },
+            {
+                title: "Bike Sharing Analytics Dashboard",
+                category: "data-analytics",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Bike+Sharing+Analytics",
+                description: "Designed and deployed a comprehensive dashboard to analyze and visualize patterns in a public bike sharing dataset for a Dicoding certification project.",
+                tags: ["Python", "Pandas", "Matplotlib", "Streamlit"],
+                liveLink: "https://data-analysis-with-python-dicoding.streamlit.app/",
+                codeLink: "https://github.com/cauchips/data-analysis-with-python-dicoding"
+            },
+            {
+                title: "Indonesian Education Digital Readiness",
+                category: "data-analytics",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Education+Dashboard",
+                description: "Created an interactive dashboard analyzing Indonesia's educational readiness for the digital era. This project was recognized as a Finalist in COMPFEST 16.",
+                tags: ["Tableau", "Data Analysis", "Data Scraping"],
+                liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/Pendidikan_17280622897700/DashboardFinal",
+                codeLink: null
+            },
+            {
+                title: "Bank Deposit & Financial Target Analysis",
+                category: "data-analytics",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Finance+Dashboard",
+                description: "Built a Tableau dashboard to analyze customer financial targets against deposit summaries for the PEDAS competition, which achieved Grand Champion (1st place).",
+                tags: ["Tableau", "SQL", "Data Analysis", "Finance"],
+                liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/PEDAS2024-UG-AI-CoE/Dashboard1",
+                codeLink: null
+            },
+            {
+                title: "TravelGo Website",
+                category: "dev",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=TravelGo+Website",
+                description: "Constructed a responsive web application frontend using modern technologies like React.js and Tailwind CSS to demonstrate advanced UI/UX skills.",
+                tags: ["React.js", "Tailwind CSS", "JavaScript"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/travelgo"
+            },
+             {
+                title: "Book Library CRUD App",
+                category: "dev",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Book+Library+App",
+                description: "Built a simple CRUD application for managing a book library as a university lab project, using Node.js for the backend and MySQL for the database.",
+                tags: ["Node.js", "MySQL", "JavaScript", "Backend"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/book-library"
+            },
+            {
+                title: "'Daftar Pesantren' Mobile App",
+                category: "dev",
+                image: "https://placehold.co/600x400/0d1117/818cf8?text=Pesantren+App",
+                description: "Developed a native Android mobile application to serve as a directory for 'pesantren' (Islamic boarding schools) and other schools in Indonesia.",
+                tags: ["Java", "Android", "Mobile Dev"],
+                liveLink: null,
+                codeLink: "https://github.com/cauchips/Daftar-Pesantren-dan-Sekolah"
+            }
+        ];
+
+        const projectGrid = document.getElementById('project-grid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        const renderProjects = (filter = 'all') => {
+            projectGrid.innerHTML = '';
+            const filteredProjects = projects.filter(p => filter === 'all' || p.category === filter);
+
+            filteredProjects.forEach((project, index) => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card card rounded-lg overflow-hidden flex flex-col';
+                
+                let linksHtml = '';
+                if (project.liveLink) {
+                    linksHtml += `<a href="${project.liveLink}" target="_blank" class="btn-primary text-white text-sm font-semibold px-4 py-2 rounded-md">Live Demo</a>`;
+                }
+                if (project.codeLink) {
+                    linksHtml += `<a href="${project.codeLink}" target="_blank" class="btn-secondary text-white text-sm font-semibold px-4 py-2 rounded-md">View Code</a>`;
+                }
+                if (!project.liveLink && !project.codeLink) {
+                     linksHtml += `<span class="text-gray-500 text-sm font-semibold px-4 py-2">Private / Internal Source</span>`;
+                }
+
+                projectCard.innerHTML = `
+                    <div class="relative w-full h-48">
+                        <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-white">${project.title}</h3>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${project.tags.map(tag => `<span class="tag text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('')}
+                        </div>
+                        <div class="mt-auto pt-4 flex justify-end space-x-3">
+                           ${linksHtml}
+                        </div>
+                    </div>
+                `;
+                projectGrid.appendChild(projectCard);
+            });
+        };
+
+        const filterProjects = (category) => {
+             filterButtons.forEach(button => {
+                button.classList.remove('active');
+             });
+             const activeButton = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+             if (activeButton) {
+                activeButton.classList.add('active');
+             }
+             renderProjects(category);
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProjects('ml');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
