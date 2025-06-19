@@ -4,785 +4,570 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jonathan Chandra Hermawan | Portfolio</title>
-    <!-- Using a self-contained SVG for the favicon is a neat trick! -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2338bdf8;' /%3E%3Cstop offset='100%25' style='stop-color:%23818cf8;' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='15' fill='%230d1117'/%3E%3Ctext x='50' y='72' font-family='Orbitron, sans-serif' font-size='60' fill='url(%23grad)' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
     
     <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='12' fill='%230A0A0A'/%3E%3Cpath d='M65 30 V 70 C 65 85, 35 85, 35 70' stroke='%230891B2' stroke-width='10' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
     <style>
-        /* --- THEME SYSTEM --- */
-        /* 1. Default Theme Variables (base styles) */
         :root {
-            --color-bg: #0d1117;
-            --color-primary: #818cf8;
-            --color-secondary: #38bdf8;
-            --color-text: #c9d1d9;
-            --color-border: #30363d;
-            --glow-color: rgba(129, 140, 248, 0.5);
-            --font-heading: 'Orbitron', sans-serif;
-            --font-body: 'Inter', sans-serif;
-        }
-
-        /* 2. Matrix Theme */
-        body.theme-matrix {
-            --color-primary: #4ade80;
-            --color-secondary: #bef264;
-            --glow-color: rgba(74, 222, 128, 0.5);
-            --color-text: #e2e8f0;
-        }
-
-        /* 3. Synthwave Theme */
-        body.theme-synthwave {
-            --color-bg: #1A103C;
-            --color-primary: #F470F7;
-            --color-secondary: #00E5E5;
-            --color-text: #E5E5E5;
-            --color-border: #4A3E7B;
-            --glow-color: rgba(244, 112, 247, 0.5);
-        }
-        
-        /* 4. Cyberpunk Theme */
-        body.theme-cyberpunk {
-            --color-bg: #0C1A3E;
-            --color-primary: #FCE804;
-            --color-secondary: #FF2A6D;
-            --color-text: #C3FCF1;
-            --color-border: #254181;
-            --glow-color: rgba(252, 232, 4, 0.5);
+            --background: #0A0A0A;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --accent: #0891B2;
+            --accent-glow: rgba(8, 145, 178, 0.3);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(23, 23, 23, 0.5);
         }
 
         html { scroll-behavior: smooth; }
+        
         body {
-            font-family: var(--font-body);
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            overflow-x: hidden;
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             cursor: none;
-            transition: background-color 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Layered background decoration container */
+        .background-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Layer 1: Corner Glows */
+        .background-decoration::before,
+        .background-decoration::after {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.1;
+        }
+
+        /* Top-right glow */
+        .background-decoration::before {
+            background-color: var(--accent);
+            top: -350px;
+            right: -350px;
         }
         
+        /* Bottom-left glow (now matching accent color) */
+        .background-decoration::after {
+            background-color: var(--accent); 
+            bottom: -350px;
+            left: -350px;
+        }
+        
+        /* Layer 2: Fading Dot Grid */
+        .dot-grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: radial-gradient(ellipse 150% 150% at 50% 50%, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 150% 150% at 50% 50%, black 30%, transparent 70%);
+        }
+
+        /* New High-Visibility Cursor */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-primary);
+            border-radius: 50%;
+            position: fixed;
+            z-index: 1001;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(1);
+            transition: width 0.2s, height 0.2s, transform 0.2s, background-color 0.2s, border 0.2s;
+        }
+        #cursor-dot.active {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(241, 245, 249, 0.25); /* Translucent white is visible on all colors */
+            border: 1px solid var(--text-primary);
+        }
+
+        /* All elements, remove default cursor */
         * { cursor: none !important; }
-        
-        .cursor {
-            width: 8px; height: 8px; background-color: var(--color-primary);
-            border-radius: 50%; position: fixed; z-index: 1000;
-            pointer-events: none;
-            transition: transform 0.2s ease-out, width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out;
-            transform: translate(-50%, -50%);
-        }
-        .cursor.hover {
-            width: 40px; height: 40px;
-            background-color: var(--glow-color); /* Use glow color for hover */
-        }
-        
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; height: 4px;
-            background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
-            width: 0%; z-index: 999;
-            transition: width 0.1s linear, background 0.5s ease;
+
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--color-bg); }
-        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
-
-        #interactive-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
-        
-        header {
-            background: rgba(13, 17, 23, 0.7);
+        /* Header */
+        .site-header {
+            background: rgba(10, 10, 10, 0.5);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--color-border);
-            transition: background-color 0.5s, border-color 0.5s;
+            border-bottom: 1px solid var(--border-color);
         }
-        .theme-synthwave header, .theme-cyberpunk header {
-            background: rgba(0,0,0,0.4);
+        .site-header nav a {
+            color: var(--text-secondary);
+            transition: all 0.2s ease-in-out;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        .site-header nav a:hover { 
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        .site-header nav a.nav-active { 
+            color: var(--text-primary); 
+        }
+        .site-header nav a.nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* Section */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* Card with Glowing Border */
+        .glowing-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .glowing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px var(--accent-glow);
+            border-color: var(--accent);
         }
         
-        #logo { font-family: var(--font-heading); }
-
-        .text-gradient {
-            background: linear-gradient(to right, var(--color-secondary), var(--color-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: background 0.5s ease;
+        /* Filter Button */
+        .filter-btn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.875rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
         }
-        .text-glow {
-            text-shadow: 0 0 8px var(--glow-color), 0 0 20px rgba(56, 189, 248, 0.2);
-            transition: text-shadow 0.5s ease;
+        .filter-btn:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .nav-link {
-            position: relative; transition: color 0.3s; padding: 4px 0;
+        .filter-btn.filter-btn-active, .filter-btn:hover {
+            color: var(--background);
+            background-color: var(--accent);
+            border-color: var(--accent);
         }
-        .nav-link.active, .nav-link:hover { color: var(--color-secondary); }
-        .nav-link::after {
-            content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px;
-            background: var(--color-secondary); transition: width 0.3s ease;
-        }
-        .nav-link.active::after, .nav-link:hover::after { width: 100%; }
-
-        .interactive-card {
-            background-color: rgba(22, 27, 34, 0.7);
-            border: 1px solid var(--color-border);
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
-            position: relative; overflow: hidden; will-change: transform; border-radius: 0.75rem;
-        }
-        .theme-synthwave .interactive-card, .theme-cyberpunk .interactive-card {
-             background-color: rgba(0,0,0,0.3);
+        .filter-btn.filter-btn-active:hover {
+            color: white;
         }
 
-        .interactive-card::before {
-            content: ""; position: absolute; left: var(--x); top: var(--y);
-            width: 0; height: 0;
-            background: radial-gradient(circle closest-side, var(--glow-color), transparent);
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease, background 0.5s ease;
-            pointer-events: none;
+        /* Accomplishments List */
+        .accomplishment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem;
+            margin: 0 -1rem;
+            border-radius: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease-in-out;
         }
-        .interactive-card:hover::before { width: 250px; height: 250px; }
-        .interactive-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+        .accomplishment-item:hover {
+            border-bottom-color: var(--accent);
+            background-color: rgba(255,255,255,0.03);
             transform: scale(1.02);
         }
 
-        .tag { background-color: var(--color-secondary); color: var(--color-bg); border: 1px solid var(--color-secondary); transition: all 0.2s ease; opacity: 0.7; }
-        .interactive-card:hover .tag { opacity: 1; }
-        
-        .tech-logo-container { position: relative; display: flex; align-items: center; justify-content: center; padding: 0.5rem; height: 64px; width: 100%; }
-        
-        .tech-logo-container .tooltip {
-            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
-            transform: translateX(-50%); margin-bottom: 8px; background-color: var(--color-bg);
-            color: var(--color-text); padding: 4px 8px; border-radius: 0.375rem; font-size: 0.75rem;
-            white-space: nowrap; transition: opacity 0.3s, visibility 0.3s; pointer-events: none;
-            z-index: 20; border: 1px solid var(--color-border);
-        }
-        
-        .tech-logo-container.top-row .tooltip {
-            bottom: auto;
-            top: 100%;
-            margin-bottom: 0;
-            margin-top: 8px;
-        }
-        
-        .tech-logo-container:hover .tooltip { visibility: visible; opacity: 1; }
-        .tech-logo { max-height: 40px; max-width: 40px; object-fit: contain; filter: grayscale(100%) opacity(60%); transition: filter 0.3s, transform 0.3s; }
-        .tech-logo-container:hover .tech-logo { filter: grayscale(0%) opacity(100%); transform: scale(1.1); }
-        .invert-logo { filter: invert(1) grayscale(100%) opacity(60%); }
-        .tech-logo-container:hover .invert-logo { filter: invert(1) grayscale(0%) opacity(100%); }
-        .sql-logo { filter: brightness(0) saturate(100%) invert(88%) sepia(9%) saturate(2222%) hue-rotate(185deg) brightness(101%) contrast(93%) opacity(60%); }
-        .tech-logo-container:hover .sql-logo { filter: brightness(0) saturate(100%) invert(60%) sepia(71%) saturate(542%) hue-rotate(169deg) brightness(99%) contrast(96%) opacity(100%); }
-
-        .filter-controls { background-color: rgba(0,0,0,0.2); border-radius: 999px; padding: 4px; position: relative; display: inline-flex; border: 1px solid var(--color-border); }
-        .filter-btn { background-color: transparent; color: var(--color-text); border: none; padding: 8px 20px; z-index: 1; transition: color 0.3s ease; position: relative; border-radius: 999px; }
-        .filter-btn.active { color: #0d1117; }
-        .theme-cyberpunk .filter-btn.active, .theme-synthwave .filter-btn.active { color: #000; }
-
-        #filter-glider {
-            position: absolute; top: 4px; height: calc(100% - 8px); background: var(--color-primary);
-            border-radius: 999px;
-            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1), width 0.4s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.5s ease;
-            z-index: 0;
-        }
-
-        .btn-primary { background-color: var(--color-primary); color: var(--color-bg); transition: background-color 0.5s, transform 0.2s; }
-        .btn-primary:hover { transform: scale(1.05); }
-        .btn-secondary { background-color: #374151; color: white; transition: background-color 0.3s, transform 0.2s; }
-        .btn-secondary:hover { background-color: #4b5563; transform: scale(1.05); }
-        
-        .section-padding { scroll-margin-top: 100px; }
-        
-        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-        .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
-        .reveal-on-scroll.stagger-1 { transition-delay: 0.1s; }
-        .reveal-on-scroll.stagger-2 { transition-delay: 0.2s; }
-
-        /* Theme change notification */
-        #theme-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--color-border);
-            color: var(--color-text);
-            padding: 10px 20px;
-            border-radius: 20px;
-            z-index: 2000;
+        /* Reveal on scroll animation */
+        .reveal {
             opacity: 0;
-            transition: opacity 0.5s, top 0.5s;
-            pointer-events: none;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+            transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        #theme-toast.show {
+        .reveal.visible {
             opacity: 1;
-            top: 40px;
+            transform: translateY(0);
         }
+        
+        /* Adjusted Hero Button Style */
+        .hero-button {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            background-color: var(--accent);
+            color: var(--background);
+            padding: 0.75rem 2rem;
+            border-radius: 0.375rem;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+        .hero-button:hover {
+            background-color: #06b6d4; /* A slightly lighter cyan */
+            box-shadow: 0 4px 15px rgba(8, 145, 178, 0.2);
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        /* General link hover effect */
+        a.text-text-secondary:hover {
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent-glow);
+        }
+
     </style>
 </head>
-<body class="theme-default">
-    <div id="theme-toast">Theme Activated</div>
-    <div class="cursor"></div>
-    <div id="scroll-progress"></div>
-    <canvas id="interactive-canvas"></canvas>
-
-    <header class="sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" id="logo" class="text-2xl font-bold text-white tracking-widest">JCH</a>
-            <div id="nav-links" class="hidden md:flex space-x-8 text-gray-300">
-                <a href="#home" data-section="home" class="nav-link">About</a>
-                <a href="#projects" data-section="projects" class="nav-link">Projects</a>
-                <a href="#awards" data-section="awards" class="nav-link">Awards</a>
-                <a href="#certifications" data-section="certifications" class="nav-link">Certifications</a>
-                <a href="#skills" data-section="skills" class="nav-link">Skills</a>
-                <a href="#contact" data-section="contact" class="nav-link">Contact</a>
-            </div>
-        </nav>
+<body>
+    <div id="cursor-dot"></div>
+    <div class="background-decoration"></div>
+    <div class="dot-grid-overlay"></div>
+    
+    <!-- HEADER -->
+    <header class="site-header sticky top-0 z-50">
+        <div class="main-container flex justify-between items-center py-4">
+            <a href="#" class="font-mono font-bold text-lg text-primary">JCH</a>
+            <nav class="hidden md:flex items-center space-x-6 text-sm">
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#accomplishments">Accomplishments</a>
+            </nav>
+            <a href="mailto:jonathanchandra17@gmail.com" class="font-mono text-sm border border-accent text-accent px-4 py-2 rounded-md hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20 hover:-translate-y-0.5">
+                Contact
+            </a>
+        </div>
     </header>
 
-    <main class="relative z-10">
-        <section id="home" class="section-padding min-h-screen flex flex-col justify-center items-center text-center">
-             <div>
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white text-glow reveal-on-scroll">
-                    Hi, I'm <span class="text-gradient">Jonathan Chandra Hermawan</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8 reveal-on-scroll stagger-1">
-                    A final-year Informatics student passionate about crafting solutions in Data Science, AI, and Cybersecurity. I thrive on transforming complex data into actionable insights and building intelligent systems that make a difference.
+    <div class="main-container">
+        <main>
+            <!-- HERO -->
+            <section class="min-h-[80vh] flex flex-col justify-center">
+                <p class="font-mono text-accent mb-4 reveal">Hi, my name is</p>
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold !leading-tight reveal" style="transition-delay: 100ms;">Jonathan Chandra Hermawan.</h1>
+                <p class="text-text-secondary mt-6 max-w-xl reveal" style="transition-delay: 200ms;">
+                    I am a final-year Informatics student specializing in building intelligent and robust digital solutions. From data analysis and AI modeling to secure back-end development, I am passionate about crafting applications that deliver tangible impact.
                 </p>
-                <div class="flex justify-center space-x-6 text-3xl text-gray-400 reveal-on-scroll stagger-2">
-                    <a href="https://linkedin.com/in/jonathanch17" target="_blank" class="nav-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/cauchips" target="_blank" class="nav-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/vizzes" target="_blank" class="nav-link" aria-label="Tableau"><i class="fas fa-chart-line"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <div class="container mx-auto px-6 py-16 md:py-20">
-            
-            <section id="projects" class="section-padding reveal-on-scroll mb-20 md:mb-32">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white text-glow">Projects</h2>
-                <p class="text-center text-gray-400 mb-12">A selection of my recent work.</p>
-                <div class="flex justify-center mb-12">
-                    <div id="filter-container" class="filter-controls">
-                        <div id="filter-glider"></div>
-                        <button data-filter="all" class="filter-btn" onclick="filterProjects('all', this)">All</button>
-                        <button data-filter="ml" class="filter-btn active" onclick="filterProjects('ml', this)">Machine Learning & AI</button>
-                        <button data-filter="data-analytics" class="filter-btn" onclick="filterProjects('data-analytics', this)">Data Analytics</button>
-                        <button data-filter="dev" class="filter-btn" onclick="filterProjects('dev', this)">Software & Web Dev</button>
-                    </div>
-                </div>
-                <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" style="perspective: 1000px;"></div>
-            </section>
-
-            <section id="awards" class="section-padding reveal-on-scroll mb-20 md:mb-32">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white text-glow">Awards & Recognition</h2>
-                <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6" style="perspective: 1000px;">
-                     <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-trophy"></i></div><h3 class="font-bold text-white">Grand Champion</h3><p class="text-sm text-gray-400">PEDAS 2024 Competition</p></div>
-                     <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-medal"></i></div><h3 class="font-bold text-white">2nd Place</h3><p class="text-sm text-gray-400">Codefest 3.0</p></div>
-                     <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-award"></i></div><h3 class="font-bold text-white">1st Place Winner</h3><p class="text-sm text-gray-400">Hackfest0x07 CTF</p></div>
-                     <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-medal"></i></div><h3 class="font-bold text-white">3rd Place</h3><p class="text-sm text-gray-400">ANONCYBERTEAM CTF</p></div>
-                    <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-flag-checkered"></i></div><h3 class="font-bold text-white">Finalist</h3><p class="text-sm text-gray-400">COMPFEST 16 Data Analytics</p></div>
-                    <div class="interactive-card p-4 text-center flex flex-col items-center justify-center min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-flag-checkered"></i></div><h3 class="font-bold text-white">Finalist</h3><p class="text-sm text-gray-400">GEMASTIK XVI Data Mining</p></div>
-                    <div class="interactive-card p-4 text-center flex flex-col items-center justify-center col-span-2 lg:col-span-2 min-h-[180px]"><div class="text-5xl mb-3 text-gradient"><i class="fas fa-star"></i></div><h3 class="font-bold text-white">Best Academic Achievements</h3><p class="text-sm text-gray-400">Universitas Gunadarma (2022-2024)</p></div>
-                </div>
-            </section>
-            
-            <section id="certifications" class="section-padding reveal-on-scroll mb-20 md:mb-32">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white text-glow">Certifications</h2>
-                <div class="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6" style="perspective: 1000px;">
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-robot"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Dev Certified for ML with TensorFlow</h3><p class="text-sm text-gray-400 mt-2">dev.id by Dicoding</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-user-secret"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Certified Ethical Hacker (CEH) v12</h3><p class="text-sm text-gray-400 mt-2">EC-Council</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fab fa-python"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">TensorFlow Developer Specialization</h3><p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-cogs"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">TensorFlow: Data & Deployment</h3><p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-brain"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Machine Learning Specialization</h3><p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-calculator"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Mathematics for ML & Data Science</h3><p class="text-sm text-gray-400 mt-2">DeepLearning.AI</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-shield-alt"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Fortinet Network Security Expert (NSE 1)</h3><p class="text-sm text-gray-400 mt-2">Fortinet</p></div>
-                    <div class="interactive-card p-5 text-center flex flex-col items-center justify-start min-h-[180px]"><div class="text-4xl text-gradient mb-3"><i class="fas fa-user-shield"></i></div><h3 class="font-bold text-white text-base leading-tight flex-grow">Certified Secure Computer User (C/SCU)</h3><p class="text-sm text-gray-400 mt-2">EC-Council</p></div>
+                <div class="mt-12 reveal" style="transition-delay: 300ms;">
+                    <a href="#projects" class="hero-button">
+                        Check out my work! &rarr;
+                    </a>
                 </div>
             </section>
 
-            <section id="skills" class="section-padding reveal-on-scroll mb-20 md:mb-32">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white text-glow">Core Competencies</h2>
-                <div class="max-w-5xl mx-auto space-y-8" style="perspective: 1000px;">
-                     <div class="interactive-card p-6">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold mb-3 text-gradient">AI & Machine Learning</h3>
-                                <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
-                                    <li>End-to-End Model Development & Deployment</li>
-                                    <li>Fine-Tuning Large Vision-Language Models (Florence-2)</li>
-                                    <li>Computer Vision (YOLO, CNNs) & NLP (Transformers)</li>
-                                    <li>Predictive Modeling & Recommender Systems</li>
-                                </ul>
-                            </div>
-                            <div class="grid grid-cols-4 gap-4 items-center">
-                               <div class="tech-logo-container"><span class="tooltip">Python</span><img src="https://cdn.worldvectorlogo.com/logos/python-5.svg" alt="Python" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">TensorFlow</span><img src="https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg" alt="TensorFlow" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">PyTorch</span><img src="https://cdn.worldvectorlogo.com/logos/pytorch-2.svg" alt="PyTorch" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Hugging Face</span><img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Scikit-Learn</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/240px-Scikit_learn_logo_small.svg.png" alt="Scikit-Learn" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Pandas</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pandas_mark.svg/1200px-Pandas_mark.svg.png" alt="Pandas" class="tech-logo invert-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">NumPy</span><img src="https://cdn.worldvectorlogo.com/logos/numpy-1.svg" alt="NumPy" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Keras</span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Keras_logo.svg/1200px-Keras_logo.svg.png" alt="Keras" class="tech-logo invert-logo"></div>
-                            </div>
-                        </div>
+            <!-- EXPERIENCE -->
+            <section id="experience" class="section reveal">
+                <h2 class="section-title">Experience</h2>
+                <div class="glowing-card">
+                    <div id="experience-list" class="space-y-6">
+                        <!-- Experience injected here -->
                     </div>
-                    <div class="interactive-card p-6">
-                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                            <div class="md:col-span-2">
-                                 <h3 class="text-xl font-bold mb-3 text-gradient">Data Analytics & BI</h3>
-                                 <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
-                                    <li>Interactive Dashboard Development & Storytelling</li>
-                                    <li>Complex SQL Querying & Data Warehousing Concepts</li>
-                                    <li>Business Intelligence Reporting & Insight Generation</li>
-                                    <li>Statistical Analysis (Regression, Bayesian)</li>
-                                </ul>
-                            </div>
-                            <div class="grid grid-cols-4 gap-4 items-center">
-                               <div class="tech-logo-container"><span class="tooltip">SQL</span><img src="https://www.svgrepo.com/show/303229/sql-database-sql-logo.svg" alt="SQL" class="tech-logo sql-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Tableau</span><img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" alt="Tableau" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Power BI</span><img class="tech-logo" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Streamlit</span><img src="https://streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.svg" alt="Streamlit" class="tech-logo invert-logo" ></div>
-                               <div class="tech-logo-container"><span class="tooltip">Plotly</span><img class="tech-logo" src="https://cdn.worldvectorlogo.com/logos/plotly.svg" alt="Plotly"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="interactive-card p-6">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                            <div class="md:col-span-2">
-                                 <h3 class="text-xl font-bold mb-3 text-gradient">Platforms & DevOps</h3>
-                                 <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
-                                    <li>Cloud Computing & AI Services (GCP Vertex AI)</li>
-                                    <li>Containerization & API Deployment (Docker, Flask)</li>
-                                    <li>Version Control & CI/CD Pipelines (Git, GitHub)</li>
-                                    <li>Experiment Tracking (MLflow, Weights & Biases)</li>
-                                </ul>
-                            </div>
-                           <div class="grid grid-cols-4 gap-4 items-center">
-                               <div class="tech-logo-container"><span class="tooltip">GCP</span><img src="https://cdn.worldvectorlogo.com/logos/google-cloud-1.svg" alt="GCP" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Docker</span><img src="https://cdn.worldvectorlogo.com/logos/docker.svg" alt="Docker" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Kubernetes</span><img class="tech-logo" src="https://cdn.worldvectorlogo.com/logos/kubernetes.svg" alt="Kubernetes"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Flask</span><img src="https://cdn.worldvectorlogo.com/logos/flask.svg" alt="Flask" class="tech-logo invert-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">Git</span><img src="https://cdn.worldvectorlogo.com/logos/git-icon.svg" alt="Git" class="tech-logo"></div>
-                               <div class="tech-logo-container"><span class="tooltip">GitHub</span><i class="fab fa-github text-4xl tech-logo"></i></div>
-                            </div>
-                        </div>
+                     <div class="mt-8 text-center">
+                        <a href="https://linkedin.com/in/jonathanch17" target="_blank" class="font-mono text-sm text-text-secondary transition-colors">
+                            View my full career journey on LinkedIn <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
+                        </a>
                     </div>
                 </div>
             </section>
 
-            <section id="contact" class="section-padding reveal-on-scroll text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white text-glow">Get In Touch</h2>
-                <p class="text-gray-300 max-w-xl mx-auto mb-8">I'm currently seeking new opportunities and am always open to connecting. Whether you have a question or just want to say hi, my inbox is always open!</p>
-                <a href="mailto:jonathanchandra17@gmail.com" class="btn-primary font-semibold px-8 py-4 rounded-lg inline-block text-lg">
-                    Say Hello <i class="fas fa-paper-plane ml-2"></i>
-                </a>
+            <!-- PROJECTS -->
+            <section id="projects" class="section reveal">
+                <div class="flex flex-col md:flex-row justify-between md:items-center mb-8">
+                    <h2 class="section-title mb-4 md:mb-0">Projects</h2>
+                    <div id="filter-container" class="flex flex-wrap gap-2">
+                        <button data-filter="all" class="filter-btn">All</button>
+                        <button data-filter="ml" class="filter-btn filter-btn-active">ML/AI</button>
+                        <button data-filter="data-analytics" class="filter-btn">Analytics</button>
+                        <button data-filter="dev" class="filter-btn">Dev</button>
+                    </div>
+                </div>
+                 <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Project cards injected here -->
+                 </div>
+                 <div class="mt-12 text-center">
+                    <a href="https://github.com/cauchips" target="_blank" class="font-mono text-sm text-text-secondary transition-colors">
+                        Find more on my GitHub <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
+                    </a>
+                </div>
             </section>
 
-        </div>
-
-        <footer class="relative z-10 text-center py-8 mt-16 md:mt-24 border-t border-gray-800">
-            <p class="text-gray-500">&copy; 2025 Jonathan Chandra Hermawan. All Rights Reserved.</p>
-             <p class="text-xs text-gray-700 mt-2">Psst... try clicking the logo three times.</p>
+            <!-- ACCOMPLISHMENTS -->
+            <section id="accomplishments" class="section reveal">
+                <h2 class="section-title">Accomplishments</h2>
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-10">
+                    <div>
+                        <h3 class="font-bold mb-4">Certifications</h3>
+                        <div id="cert-list" class="space-y-1"></div>
+                    </div>
+                     <div>
+                        <h3 class="font-bold mb-4">Awards & Recognition</h3>
+                        <div id="award-list" class="space-y-1"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- FOOTER -->
+        <footer class="text-center py-16 text-sm text-text-secondary font-mono">
+             <div class="flex justify-center space-x-6 text-xl mb-6">
+                <a href="https://github.com/cauchips" target="_blank" class="hover:text-accent transition-colors" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/jonathanch17" target="_blank" class="hover:text-accent transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/vizzes" target="_blank" class="hover:text-accent transition-colors" aria-label="Tableau"><i class="fas fa-chart-line"></i></a>
+             </div>
+             <p>Designed & Built by Jonathan Chandra Hermawan</p>
+             <p class="mt-2 text-xs opacity-50" id="footer-time"></p>
         </footer>
-    </main>
+    </div>
 
     <script>
-        // Project data array
-        const projects = [
-            { title: "Coretax System Simulator", category: "dev", image: "https://placehold.co/600x400/0d1117/818cf8?text=Coretax+Simulator", description: "Developed a full-stack simulation portal for Indonesia's new Coretax system during an internship at the Directorate General of Taxes (DJP).", tags: ["PHP", "MySQL", "Backend", "Government"], liveLink: "https://portalwp-simulasi.pajak.go.id/", codeLink: null },
-            { title: "AI-Powered Lead Scraper", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=AI+Lead+Scraper", description: "Built a Streamlit app to scrape, enrich, and rank B2B leads using a custom scoring model that incorporates sentiment analysis and semantic similarity.", tags: ["Streamlit", "Python", "Web Scraping", "DistilBERT", "NLP"], liveLink: null, codeLink: "https://github.com/cauchips/ai-powered-lead-scraper" },
-            { title: "Thesis: Metadata-Integrated Auto Captioning", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Florence-2+Thesis", description: "Fine-tuning the state-of-the-art Florence-2 model for a detailed Indonesian image captioning task. This thesis research integrates metadata to improve contextual accuracy.", tags: ["Fine-Tuning", "LLM", "Florence-2", "Python", "PyTorch"], liveLink: null, codeLink: null },
-            { title: "Cataract Detection App (Bangkit)", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Cataract+Detection", description: "Developed the core machine learning model for a Bangkit 2024 capstone project, achieving 99% accuracy in detecting cataracts from eye images.", tags: ["TensorFlow", "Python", "GCP", "Computer Vision", "Android"], liveLink: null, codeLink: "https://github.com/cataract-bangkit" },
-            { title: "Face Mask Detection Model", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Face+Mask+Detection", description: "Trained and deployed an object detection model on Roboflow to identify correct, incorrect, or absent face mask usage from images.", tags: ["Object Detection", "Roboflow", "Python", "Computer Vision"], liveLink: "https://universe.roboflow.com/jonathan-chandra/face-mask-object-detection/model/2", codeLink: null },
-            { title: "Soybean Quality Detection", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Soybean+Quality", description: "Led the ML engineering for a team project that became a finalist in GEMASTIK XVI Data Mining. This project uses a YOLOv5 model to classify soybean quality.", tags: ["YOLOv5", "Python", "Project Management", "Roboflow"], liveLink: "https://universe.roboflow.com/jonathan-chandra/soybean-detection/model/6", codeLink: "https://github.com/cauchips/Soybean-Detection-YOLOV5" },
-            { title: "Damaged Solar Panel Classification", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Solar+Panel+Detection", description: "Developed a computer vision model to automatically classify and identify damaged solar panels from aerial imagery to help streamline maintenance efforts.", tags: ["Python", "Computer Vision", "Classification"], liveLink: null, codeLink: "https://github.com/cauchips/damaged-solar-panel-classification" },
-            { title: "Dog Eye Disease Detection", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Dog+Eye+Disease+Detection", description: "Built and deployed a Streamlit web application that utilizes a YOLO deep learning model to detect various eye diseases in dogs from user-uploaded images.", tags: ["YOLO", "Python", "Streamlit", "Computer Vision"], liveLink: null, codeLink: "https://github.com/cauchips/Dog-Eye-Diseases-Detection-Streamlit" },
-             { title: "Poisonous Mushroom Prediction", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Mushroom+Prediction", description: "Built a classic machine learning model to predict whether a mushroom is poisonous or edible based on its physical attributes.", tags: ["Jupyter", "Scikit-learn", "Python", "Classification"], liveLink: null, codeLink: "https://github.com/cauchips/poisonous-mushroom-prediction" },
-            { title: "Simple Image Enhancement Tool", category: "ml", image: "https://placehold.co/600x400/0d1117/818cf8?text=Image+Enhancement", description: "Created a Jupyter Notebook to demonstrate various classical techniques for image enhancement, including brightness, contrast, and sharpness adjustments.", tags: ["Jupyter", "Python", "Image Processing"], liveLink: null, codeLink: "https://github.com/cauchips/simple-image-enhancement" },
-            { title: "Bike Sharing Analytics Dashboard", category: "data-analytics", image: "https://placehold.co/600x400/0d1117/818cf8?text=Bike+Sharing+Analytics", description: "Designed and deployed a comprehensive dashboard to analyze and visualize patterns in a public bike sharing dataset for a Dicoding certification project.", tags: ["Python", "Pandas", "Matplotlib", "Streamlit"], liveLink: "https://data-analysis-with-python-dicoding.streamlit.app/", codeLink: "https://github.com/cauchips/data-analysis-with-python-dicoding" },
-            { title: "Indonesian Education Digital Readiness", category: "data-analytics", image: "https://placehold.co/600x400/0d1117/818cf8?text=Education+Dashboard", description: "Created an interactive dashboard analyzing Indonesia's educational readiness for the digital era. This project was recognized as a Finalist in COMPFEST 16.", tags: ["Tableau", "Data Analysis", "Data Scraping"], liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/Pendidikan_17280622897700/DashboardFinal", codeLink: null },
-            { title: "Bank Deposit & Financial Target Analysis", category: "data-analytics", image: "https://placehold.co/600x400/0d1117/818cf8?text=Finance+Dashboard", description: "Built a Tableau dashboard to analyze customer financial targets against deposit summaries for the PEDAS competition, which achieved Grand Champion (1st place).", tags: ["Tableau", "SQL", "Data Analysis", "Finance"], liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/PEDAS2024-UG-AI-CoE/Dashboard1", codeLink: null },
-            { title: "TravelGo Website", category: "dev", image: "https://placehold.co/600x400/0d1117/818cf8?text=TravelGo+Website", description: "Constructed a responsive web application frontend using modern technologies like React.js and Tailwind CSS to demonstrate advanced UI/UX skills.", tags: ["React.js", "Tailwind CSS", "JavaScript"], liveLink: null, codeLink: "https://github.com/cauchips/travelgo" },
-             { title: "Book Library CRUD App", category: "dev", image: "https://placehold.co/600x400/0d1117/818cf8?text=Book+Library+App", description: "Built a simple CRUD application for managing a book library as a university lab project, using Node.js for the backend and MySQL for the database.", tags: ["Node.js", "MySQL", "JavaScript", "Backend"], liveLink: null, codeLink: "https://github.com/cauchips/book-library" },
-            { title: "'Daftar Pesantren' Mobile App", category: "dev", image: "https://placehold.co/600x400/0d1117/818cf8?text=Pesantren+App", description: "Developed a native Android mobile application to serve as a directory for 'pesantren' (Islamic boarding schools) and other schools in Indonesia.", tags: ["Java", "Android", "Mobile Dev"], liveLink: null, codeLink: "https://github.com/cauchips/Daftar-Pesantren-dan-Sekolah" }
-        ];
-
-        const projectGrid = document.getElementById('project-grid');
-
-        // Function to render projects based on a filter
-        function renderProjects(filter = 'all') {
-            projectGrid.innerHTML = '';
-            const filteredProjects = projects.filter(p => filter === 'all' || p.category === filter);
-
-            filteredProjects.forEach((project) => {
-                const projectCard = document.createElement('div');
-                projectCard.className = 'interactive-card flex flex-col';
-                
-                let linksHtml = '';
-                if (project.liveLink) {
-                    linksHtml += `<a href="${project.liveLink}" target="_blank" class="btn-primary text-sm font-semibold px-4 py-2 rounded-md">Live Demo</a>`;
-                }
-                if (project.codeLink) {
-                    linksHtml += `<a href="${project.codeLink}" target="_blank" class="btn-secondary text-sm font-semibold px-4 py-2 rounded-md">View Code</a>`;
-                }
-                 if (!project.liveLink && !project.codeLink) {
-                     linksHtml += `<span class="text-gray-500 text-sm font-semibold px-4 py-2">Private Source</span>`;
-                }
-
-                projectCard.innerHTML = `
-                    <div class="relative w-full h-48">
-                        <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover rounded-t-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/0d1117/c9d1d9?text=Image+Not+Found';">
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold mb-2 text-white">${project.title}</h3>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">${project.description}</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            ${project.tags.map(tag => `<span class="tag text-xs font-semibold px-2.5 py-1 rounded-full">${tag}</span>`).join('')}
-                        </div>
-                        <div class="mt-auto pt-4 flex justify-end space-x-3">
-                           ${linksHtml}
-                        </div>
-                    </div>
-                `;
-                projectGrid.appendChild(projectCard);
-            });
-            addCardEventListeners();
-            addCursorEventListeners();
-        };
-
-        // Function to handle project filtering
-        function filterProjects(category, btnElement) {
-             document.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
-             btnElement.classList.add('active');
-             
-             const glider = document.getElementById('filter-glider');
-             glider.style.width = `${btnElement.offsetWidth}px`;
-             glider.style.left = `${btnElement.offsetLeft}px`;
-
-             renderProjects(category);
-        };
-        
-        // Function to add mouse move/leave listeners to interactive cards
-        function addCardEventListeners() {
-            const cards = document.querySelectorAll('.interactive-card');
-            cards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = (y - centerY) / 25;
-                    const rotateY = (centerX - x) / 25;
-                    
-                    card.style.transform = `scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                    card.style.setProperty('--x', `${x}px`);
-                    card.style.setProperty('--y', `${y}px`);
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
-                });
-            });
-        }
-        
-        // Function to add hover listeners to elements for the custom cursor
-        function addCursorEventListeners() {
-            const cursor = document.querySelector('.cursor');
-            document.querySelectorAll('a, button, .interactive-card, .tech-logo-container').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            window.filterProjects = filterProjects;
             
+            // --- DATA ---
+            const work = [
+                 { role: 'Laboratory Assistant and Data Science Course Instructor', company: 'Universitas Gunadarma', dates: 'Sep 2023 – Feb 2025' },
+                 { role: 'Web Developer Intern', company: 'Direktorat Jenderal Pajak', dates: 'Oct 2024 – Dec 2024' },
+                 { role: 'Machine Learning Cohort', company: 'Bangkit Academy', dates: 'Feb 2024 – Jul 2024' }
+            ];
+            
+            const projects = [
+                { title: "Coretax System Simulator", category: "dev", description: "Developed a full-stack simulation portal for Indonesia's new Coretax system.", tags: ["PHP", "MySQL", "Backend", "Government"], liveLink: "https://portalwp-simulasi.pajak.go.id/", codeLink: null },
+                { title: "AI-Powered Lead Scraper", category: "ml", description: "Built a Streamlit app to scrape, enrich, and rank B2B leads using a custom scoring model.", tags: ["Streamlit", "Python", "Web Scraping", "NLP"], liveLink: null, codeLink: "https://github.com/cauchips/ai-powered-lead-scraper" },
+                { title: "Thesis: Metadata-Integrated Auto Captioning", category: "ml", description: "Fine-tuning the Florence-2 model for a detailed Indonesian image captioning task.", tags: ["Fine-Tuning", "LLM", "Florence-2", "PyTorch"], liveLink: null, codeLink: null },
+                { title: "Cataract Detection App (Bangkit)", category: "ml", description: "Developed the core ML model for a Bangkit 2024 capstone project with 99% accuracy.", tags: ["TensorFlow", "Python", "GCP", "Computer Vision"], liveLink: null, codeLink: "https://github.com/cataract-bangkit" },
+                { title: "Face Mask Detection Model", category: "ml", description: "Trained and deployed an object detection model to identify face mask usage.", tags: ["Object Detection", "Roboflow", "Computer Vision"], liveLink: "https://universe.roboflow.com/jonathan-chandra/face-mask-object-detection/model/2", codeLink: null },
+                { title: "Soybean Quality Detection", category: "ml", description: "Led ML engineering for a finalist team in GEMASTIK XVI Data Mining using YOLOv5.", tags: ["YOLOv5", "Python", "Roboflow"], liveLink: "https://universe.roboflow.com/jonathan-chandra/soybean-detection/model/6", codeLink: null },
+                { title: "Damaged Solar Panel Classification", category: "ml", description: "A vision model to classify damaged solar panels from aerial imagery.", tags: ["Python", "Computer Vision", "Classification"], liveLink: null, codeLink: "https://github.com/cauchips/damaged-solar-panel-classification" },
+                { title: "Dog Eye Disease Detection", category: "ml", description: "Streamlit app that utilizes a YOLO model to detect eye diseases in dogs.", tags: ["YOLO", "Python", "Streamlit"], liveLink: null, codeLink: "https://github.com/cauchips/Dog-Eye-Diseases-Detection-Streamlit" },
+                { title: "Poisonous Mushroom Prediction", category: "ml", description: "A classic ML model to predict mushroom toxicity based on physical attributes.", tags: ["Scikit-learn", "Python", "Classification"], liveLink: null, codeLink: "https://github.com/cauchips/poisonous-mushroom-prediction" },
+                { title: "Simple Image Enhancement Tool", category: "ml", description: "A Jupyter Notebook demonstrating classical image enhancement techniques.", tags: ["Jupyter", "Python", "Image Processing"], liveLink: null, codeLink: "https://github.com/cauchips/simple-image-enhancement" },
+                { title: "Bike Sharing Analytics Dashboard", category: "data-analytics", description: "A comprehensive dashboard analyzing patterns in a public bike sharing dataset.", tags: ["Pandas", "Matplotlib", "Streamlit"], liveLink: "https://data-analysis-with-python-dicoding.streamlit.app/", codeLink: "https://github.com/cauchips/data-analysis-with-python-dicoding" },
+                { title: "Indonesian Education Digital Readiness", category: "data-analytics", description: "An interactive dashboard analyzing educational readiness. Finalist in COMPFEST 16.", tags: ["Tableau", "Data Analysis", "Data Scraping"], liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/Pendidikan_17280622897700/DashboardFinal", codeLink: null },
+                { title: "Bank Deposit & Financial Target Analysis", category: "data-analytics", description: "Tableau dashboard for the PEDAS competition, which achieved Grand Champion.", tags: ["Tableau", "SQL", "Data Analysis", "Finance"], liveLink: "https://public.tableau.com/app/profile/jonathan.chandra.hermawan5905/viz/PEDAS2024-UG-AI-CoE/Dashboard1", codeLink: null },
+                { title: "TravelGo Website", category: "dev", description: "A responsive web app frontend using React.js and Tailwind CSS.", tags: ["React.js", "Tailwind CSS", "JavaScript"], liveLink: null, codeLink: "https://github.com/cauchips/travelgo" },
+                { title: "Book Library CRUD App", category: "dev", description: "A simple CRUD application for managing a book library using Node.js and MySQL.", tags: ["Node.js", "MySQL", "Backend"], liveLink: null, codeLink: "https://github.com/cauchips/book-library" },
+                { title: "'Daftar Pesantren' Mobile App", category: "dev", description: "A native Android mobile application serving as a directory for schools.", tags: ["Java", "Android", "Mobile Dev"], liveLink: null, codeLink: "https://github.com/cauchips/Daftar-Pesantren-dan-Sekolah" }
+            ];
+            
+            const certifications = [
+                { title: 'Dev Certified for Machine Learning with TensorFlow', issuer: 'dev.id', date: 'Mar 2025', expires: 'Mar 2028' },
+                { title: 'Certified Ethical Hacker (CEH) v12', issuer: 'EC-Council', date: 'Dec 2024', expires: 'Jan 2026' },
+                { title: 'Certified Secure Computer User (C/SCU)', issuer: 'EC-Council', date: 'Oct 2024' },
+                { title: 'DeepLearning.AI TensorFlow Developer Specialization', issuer: 'DeepLearning.AI', date: 'May 2024' },
+                { title: 'TensorFlow: Data and Deployment Specialization', issuer: 'DeepLearning.AI', date: 'May 2024' },
+                { title: 'Machine Learning Specialization', issuer: 'DeepLearning.AI', date: 'Apr 2024' },
+                { title: 'Mathematics for ML & Data Science Specialization', issuer: 'DeepLearning.AI', date: 'Mar 2024' },
+                { title: 'Fortinet Network Security Expert', issuer: 'Fortinet', date: 'Sep 2023', expires: 'Sep 2025' },
+            ];
+
+            const awards = [
+                { title: '2nd Place in Codefest 3.0', division: 'Competitive Programming', issuer: 'Gunadarma I/O', date: 'May 2025' },
+                { title: 'Grand Champion in Pesta Data Nasional 2024', division: 'Data Engineering, Science, & Deployment', issuer: 'HMM UIN Syarif Hidayatullah JKT', date: 'Dec 2024' },
+                { title: 'Finalist in Data Analytics Dash at COMPFEST16', division: 'Data Analytics', issuer: 'BEM Fasilkom UI', date: 'Oct 2024' },
+                { title: '3rd Place in ANONCYBERTEAM CTF v1.0', division: 'Capture The Flag', issuer: 'Anon Cyber Team', date: 'Mar 2024' },
+                { title: '1st Place in Hackfest0x07 CTF', division: 'Capture The Flag', issuer: 'Cyber Community UG', date: 'Dec 2023' },
+                { title: 'Finalist in Gemastik 2023', division: 'Data Mining', issuer: 'Pusat Prestasi Nasional', date: 'Sep 2023' },
+                { title: 'Best Academic Achievement', division: null, issuer: 'Universitas Gunadarma', date: '2022 - 2024' },
+            ];
+
+            // --- RENDER FUNCTIONS ---
+            const experienceList = document.getElementById('experience-list');
+            const projectGrid = document.getElementById('project-grid');
+            const certList = document.getElementById('cert-list');
+            const awardList = document.getElementById('award-list');
+            const filterContainer = document.getElementById('filter-container');
+
+            function renderExperience() {
+                experienceList.innerHTML = '';
+                work.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "flex flex-col sm:flex-row gap-2 sm:gap-8";
+                    div.innerHTML = `
+                        <p class="text-sm text-text-secondary w-full sm:w-1/4">${item.dates}</p>
+                        <div class="w-full sm:w-3/4">
+                            <p class="font-semibold">${item.role}</p>
+                            <p class="text-sm text-accent">${item.company}</p>
+                        </div>
+                    `;
+                    experienceList.appendChild(div);
+                });
+            }
+
+            function renderProjects(filter = 'all') {
+                projectGrid.innerHTML = '';
+                const filteredProjects = projects.filter(p => filter === 'all' || p.category === filter);
+
+                filteredProjects.forEach(project => {
+                    const card = document.createElement('div');
+                    card.className = 'glowing-card flex flex-col';
+                    const linksHTML = `
+                        ${project.liveLink ? `<a href="${project.liveLink}" target="_blank" class="text-text-secondary hover:text-accent" aria-label="Live Demo"><i class="fas fa-arrow-up-right-from-square"></i></a>` : ''}
+                        ${project.codeLink ? `<a href="${project.codeLink}" target="_blank" class="text-text-secondary hover:text-accent" aria-label="GitHub"><i class="fab fa-github"></i></a>` : ''}
+                    `;
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center mb-4">
+                            <i class="fas fa-folder-open text-3xl text-accent"></i>
+                            <div class="flex space-x-4 text-xl">${linksHTML}</div>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 flex-grow">${project.title}</h3>
+                        <p class="text-sm text-text-secondary mb-4">${project.description}</p>
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-mono text-text-secondary pt-4 border-t border-border-color">${project.tags.map(tag => `<span>${tag}</span>`).join('')}</div>
+                    `;
+                    projectGrid.appendChild(card);
+                });
+            }
+            
+            function renderAccomplishments() {
+                certList.innerHTML = ''; // Clear existing
+                certifications.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'accomplishment-item';
+                    const expiryHTML = item.expires ? `<span class="opacity-70"> (Expires: ${item.expires})</span>` : '';
+                    div.innerHTML = `
+                        <div class="flex-grow pr-4">
+                            <p class="font-medium text-sm">${item.title}</p>
+                            <p class="text-xs text-text-secondary mt-1">${item.issuer}</p>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono text-right whitespace-nowrap">${item.date}${expiryHTML}</p>
+                    `;
+                    certList.appendChild(div);
+                });
+
+                awardList.innerHTML = ''; // Clear existing
+                awards.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'accomplishment-item';
+                    const divisionHTML = item.division ? `<p class="text-xs text-accent font-mono">${item.division}</p>` : '';
+                    div.innerHTML = `
+                        <div class="flex-grow pr-4">
+                            <p class="font-medium text-sm">${item.title}</p>
+                             ${divisionHTML}
+                            <p class="text-xs text-text-secondary mt-1">${item.issuer}</p>
+                        </div>
+                        <p class="text-xs text-text-secondary font-mono text-right whitespace-nowrap">${item.date}</p>
+                    `;
+                    awardList.appendChild(div);
+                });
+            }
+
+            // --- INTERACTIVITY ---
+            const cursorDot = document.getElementById('cursor-dot');
+            window.addEventListener('mousemove', e => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+            });
+
+            document.querySelectorAll('a, button, .glowing-card, .filter-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => cursorDot.classList.add('active'));
+                el.addEventListener('mouseleave', () => cursorDot.classList.remove('active'));
+            });
+
+             filterContainer.addEventListener('click', e => {
+                if (e.target.tagName === 'BUTTON') {
+                    document.querySelectorAll('#filter-container button').forEach(btn => btn.classList.remove('filter-btn-active'));
+                    e.target.classList.add('filter-btn-active');
+                    renderProjects(e.target.dataset.filter);
+                }
+            });
+            
+            function setInitialFilter() {
+                const initialFilter = 'ml';
+                renderProjects(initialFilter);
+            }
+            
+            // --- SCROLL-AWARE NAVIGATION ---
+            const navLinks = document.querySelectorAll('.site-header nav a');
+            const sections = document.querySelectorAll('.section');
+
+            const navObserverOptions = {
+                rootMargin: '-30% 0px -70% 0px',
+            };
+
+            const navObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const link = document.querySelector(`.site-header nav a[href="#${entry.target.id}"]`);
+                        navLinks.forEach(l => l.classList.remove('nav-active'));
+                        if (link) {
+                            link.classList.add('nav-active');
+                        }
+                    }
+                });
+            }, navObserverOptions);
+
+            sections.forEach(section => {
+                navObserver.observe(section);
+            });
+
+
+            // --- REVEAL ON SCROLL ANIMATION ---
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) { 
-                        entry.target.classList.add('visible'); 
-                        revealObserver.unobserve(entry.target);
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
                     }
                 });
             }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal-on-scroll').forEach(section => {
-                revealObserver.observe(section); 
-            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
             
-            const navObserver = new IntersectionObserver((entries) => {
-                const navLinks = document.querySelectorAll('#nav-links a');
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        const navLink = document.querySelector(`#nav-links a[data-section="${id}"]`);
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        if(navLink) navLink.classList.add('active');
-                    }
-                });
-            }, { rootMargin: "-20% 0px -70% 0px" });
-            document.querySelectorAll('main section[id]').forEach(section => { 
-                if(section.id) navObserver.observe(section);
-            });
-            
-            document.querySelectorAll('#skills .interactive-card .grid.grid-cols-4').forEach(grid => {
-                const logos = grid.querySelectorAll('.tech-logo-container');
-                for (let i = 0; i < 4 && i < logos.length; i++) {
-                    logos[i].classList.add('top-row');
-                }
-            });
+            // --- FOOTER TIME ---
+             const timeEl = document.getElementById('footer-time');
+             if(timeEl) {
+                 const date = new Date();
+                 const options = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: false };
+                 timeEl.textContent = `Local time: ${date.toLocaleTimeString('en-GB', options)} WIB`;
+             }
 
-            // --- CANVAS & THEME LOGIC ---
-            const themes = [
-                { name: 'default', label: 'Default' }, 
-                { name: 'matrix', label: 'Matrix' },
-                { name: 'synthwave', label: 'Synthwave' },
-                { name: 'cyberpunk', label: 'Cyberpunk' },
-            ];
-            let currentThemeIndex = 0;
-            let currentAnimation = 'default';
-            
-            const body = document.body;
-            const toast = document.getElementById('theme-toast');
-            const canvas = document.getElementById('interactive-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            let mouse = { x: undefined, y: undefined };
-            let animationFrameId; // To manage the animation loop
-
-            // Animation-specific variables
-            let defaultDots = [];
-            let matrixDrops;
-            let synthwaveGrid = { lines: [], step: 0, speed: 2, horizon: 0.4 };
-            let cyberpunkGlitches = [];
-
-            // --- Theme Changer ---
-            function changeTheme() {
-                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-                const newTheme = themes[currentThemeIndex];
-                
-                body.className = 'antialiased';
-                body.classList.add(`theme-${newTheme.name}`);
-                currentAnimation = newTheme.name;
-
-                onResize();
-                
-                toast.textContent = `${newTheme.label} Theme Activated`;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
-            }
-
-            // --- Animation Setup Functions ---
-            function setupDefault() {
-                 defaultDots = []; const spacing = 40;
-                for (let x = spacing / 2; x < canvas.width; x += spacing) {
-                    for (let y = spacing / 2; y < canvas.height; y += spacing) {
-                        defaultDots.push({x, y});
-                    }
-                }
-            }
-            function setupMatrix() {
-                const fontSize = 16;
-                const columns = Math.floor(canvas.width / fontSize);
-                matrixDrops = [];
-                for (let x = 0; x < columns; x++) {
-                    matrixDrops[x] = 1;
-                }
-            }
-            function setupSynthwave() {
-                // No setup needed, calculated in draw loop
-            }
-            function setupCyberpunk() {
-                cyberpunkGlitches = [];
-                for (let i = 0; i < 50; i++) {
-                    cyberpunkGlitches.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        life: Math.random() * 50
-                    });
-                }
-            }
-
-            // --- Animation Drawing Functions ---
-            function drawDefault() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#2d333b';
-                defaultDots.forEach(dot => {
-                    ctx.beginPath(); ctx.arc(dot.x, dot.y, 0.7, 0, Math.PI * 2); ctx.fill();
-                });
-
-                if (mouse.x !== undefined && mouse.y !== undefined) {
-                    const primaryColor = getComputedStyle(body).getPropertyValue('--color-primary').trim();
-                    const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 250);
-                     const color = primaryColor.startsWith('#') ? `rgba(${parseInt(primaryColor.slice(1,3),16)}, ${parseInt(primaryColor.slice(3,5),16)}, ${parseInt(primaryColor.slice(5,7),16)}` : 'rgba(129, 140, 248';
-                    gradient.addColorStop(0, `${color}, 0.2)`);
-                    gradient.addColorStop(1, `${color}, 0)`);
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                }
-            }
-            function drawMatrix() {
-                const fontSize = 16;
-                const characters = 'JCH0123456789';
-                ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = getComputedStyle(body).getPropertyValue('--color-primary').trim();
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < matrixDrops.length; i++) {
-                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                    ctx.fillText(text, i * fontSize, matrixDrops[i] * fontSize);
-                    if (matrixDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        matrixDrops[i] = 0;
-                    }
-                    matrixDrops[i]++;
-                }
-            }
-            function drawSynthwave() {
-                ctx.fillStyle = getComputedStyle(body).getPropertyValue('--color-bg').trim();
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                const primaryColor = getComputedStyle(body).getPropertyValue('--color-primary').trim();
-                const secondaryColor = getComputedStyle(body).getPropertyValue('--color-secondary').trim();
-                const horizonY = canvas.height * synthwaveGrid.horizon;
-                const lineCount = 16;
-                const lineSpacing = canvas.width / lineCount;
-
-                synthwaveGrid.step = (synthwaveGrid.step + synthwaveGrid.speed) % (lineSpacing * 2);
-
-                for (let i = -lineCount / 2; i <= lineCount / 2; i++) {
-                    const x = canvas.width / 2 + i * lineSpacing;
-                    ctx.beginPath();
-                    ctx.moveTo(x, horizonY);
-                    ctx.lineTo(canvas.width / 2 + (i * lineSpacing * canvas.height), canvas.height);
-                    ctx.strokeStyle = primaryColor;
-                    ctx.lineWidth = 1.5;
-                    ctx.stroke();
-                }
-
-                for (let i = 0; i < 20; i++) {
-                    const y = horizonY + synthwaveGrid.step + (i * lineSpacing * 2);
-                    if (y < horizonY) continue;
-                    
-                    const perspective = (y - horizonY) / (canvas.height - horizonY);
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(canvas.width, y);
-                    ctx.strokeStyle = secondaryColor;
-                    ctx.lineWidth = 2 * perspective;
-                    ctx.stroke();
-                }
-            }
-            function drawCyberpunk() {
-                ctx.fillStyle = 'rgba(12, 26, 62, 0.1)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                const color = getComputedStyle(body).getPropertyValue('--color-primary').trim();
-                ctx.font = '10px monospace';
-                
-                cyberpunkGlitches.forEach(p => {
-                    ctx.fillStyle = Math.random() > 0.5 ? color : getComputedStyle(body).getPropertyValue('--color-secondary').trim();
-                    if(Math.random() > 0.5) {
-                       ctx.fillText(Math.random() > 0.5 ? '1' : '0', p.x, p.y);
-                    } else {
-                       ctx.fillRect(p.x, p.y, Math.random() * 10, Math.random() * 10);
-                    }
-                    p.x += (Math.random() - 0.5) * 4;
-                    p.y += (Math.random() - 0.5) * 4;
-                    p.life--;
-                    if (p.life < 0) {
-                        p.x = Math.random() * canvas.width;
-                        p.y = Math.random() * canvas.height;
-                        p.life = Math.random() * 50;
-                    }
-                });
-            }
-            
-            // --- Main Animation Loop ---
-            function animate() {
-                switch (currentAnimation) {
-                    case 'matrix':
-                        drawMatrix();
-                        break;
-                    case 'synthwave':
-                        drawSynthwave();
-                        break;
-                    case 'cyberpunk':
-                        drawCyberpunk();
-                        break;
-                    case 'default':
-                    default:
-                        drawDefault();
-                        break;
-                }
-                animationFrameId = requestAnimationFrame(animate);
-            }
-            
-            function onResize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                
-                switch (currentAnimation) {
-                    case 'default': setupDefault(); break;
-                    case 'matrix': setupMatrix(); break;
-                    case 'synthwave': setupSynthwave(); break;
-                    case 'cyberpunk': setupCyberpunk(); break;
-                }
-            }
-            
-            // --- Event Listeners ---
-            window.addEventListener('resize', onResize);
-            window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-            window.addEventListener('mouseleave', () => { mouse.x = undefined; mouse.y = undefined; });
-            
-            // FIX: Reinstated the triple-click easter egg logic
-            let logoClickCount = 0;
-            let logoClickTimer;
-            document.getElementById('logo').addEventListener('click', (e) => {
-                e.preventDefault();
-                logoClickCount++;
-                clearTimeout(logoClickTimer);
-                if (logoClickCount === 3) {
-                    changeTheme();
-                    logoClickCount = 0;
-                }
-                logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 800);
-            });
-            
-            onResize(); // Initial setup
-            animate(); // Start animation loop
-            
-            const cursor = document.querySelector('.cursor');
-            window.addEventListener('mousemove', e => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-            addCursorEventListeners();
-            
-            const scrollProgress = document.getElementById('scroll-progress');
-            window.addEventListener('scroll', () => {
-                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-                if (scrollable > 0) {
-                    scrollProgress.style.width = (window.scrollY / scrollable) * 100 + '%';
-                } else {
-                    scrollProgress.style.width = '0%';
-                }
-            });
+            // --- INITIALIZATION ---
+            renderExperience();
+            setInitialFilter();
+            renderAccomplishments();
         });
-        
-        window.onload = function() {
-            const initialActiveFilter = document.querySelector('.filter-btn.active');
-            if (initialActiveFilter) {
-                filterProjects('ml', initialActiveFilter);
-            }
-        };
     </script>
 </body>
 </html>
